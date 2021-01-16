@@ -26,18 +26,46 @@ mislav는 참여자 명단에는 두 명이 있지만, 완주자 명단에는 �
 */
 
 #include <string>
+//동적 메모리 할당을 쉽게 해주는 vector 헤더 추가
 #include <vector>
+//sort 함수를 사용하기 위한 algorithm 헤더 추가
 #include <algorithm>
+//헤쉬테이블을 사용하기 위한 unordeered_map 헤더 사용
+#include <unordered_map>
 
 using namespace std;
 
+string solution(vector<string> participant, vector<string> completion)
+{
+    unordered_map<string, int> hash_map;
+    for (int i = 0; i < completion.size(); i++)
+    {
+        hash_map[completion[i]]++;
+    }
+    for (int i = 0; i < participant.size(); i++)
+    {
+        if (--hash_map[participant[i]] < 0)
+        {
+            return (participant[i]);
+        }
+    }
+}
+/*
+//정렬을 이용한 풀이
 string solution(vector<string> participant, vector<string> completion) {
     string answer = "";
+	//두 문자열을 순서대로 졍렬
     sort(participant.begin(), participant.end());
     sort(completion.begin(), completion.end());
     for(int i=0;i<participant.size();i++)
     {
+		//서로 비교해가며 다를 경우 완주자가 아니기 때문에 participant의 원소를 리턴
         if(participant[i] != completion[i])
             return participant[i];
     }
 }
+
+//SOL
+//단 한명의 완주하지 못한 사람을 찾는 것이기 때문에 두 백터를 sort함수를 이용하여 정렬을 한뒤
+////서로의 백터의 원소들을 비교하며 서로가 같지 않은 문자열을 찾아 리턴
+*/
